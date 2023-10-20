@@ -1,96 +1,91 @@
 #include "sort.h"
+
 /**
- * quick_sort - function that sorts an array of integers in ascending
- * order using the Quick sort algorithm
- * @array: array of integers
- * @size: size of the array
- **/
-void quick_sort(int *array, size_t size)
-{
-/*
-* QuickSort function that takes first and last index in the array
+ * swap - Swap values of start and next index
+ * @a: array to be sorted
+ * @b: size of the array
+ * Return: void
 */
-QuickSort(array, 0, size - 1, size);
+
+void swap(int *a, int *b)
+{
+	int temp = *a;
+
+	*a = *b;
+	*b = temp;
 }
+
 /**
- * QuickSort - function that sorts an array using recursion
- * @array: array of integers
- * @first: first index in the array
- * @last: last element in the array.
+ * partition - Using Lomuto partition scheme for quicksort
+ * @array: array to be sorted
+ * @low: left most value
+ * @high: right most value
  * @size: size of the array
- **/
-void QuickSort(int *array, int first, int last, size_t size)
+ * Return: i + 1
+ */
+
+int partition(int *array, int low, int high, int size)
 {
-	int p_index;
-/*
-* first and last index condition, first increases in every subpart
-* and last decreaces in every subpart until the subpart is just one element
-*/
-	if (first >= last)
-		return;
+	int pivot = array[high];
+	int i = low - 1;
+	int j;
 
-/*
-* Function that return the partioning point in the array
-*/
-	p_index = partition(array, first, last, size);
-
-/*
-* Recursion, Sort the elements on the left of pivot
-*/
-	QuickSort(array, first, p_index - 1, size);
-
-/*
-* Recursion, Sort the elements on the right of pivot
-*/
-	QuickSort(array, p_index + 1, last, size);
-}
-/**
- * partition - function that parts the elements in the array
- * @array: array of integers
- * @first: first index in the array
- * @last: last element in the array.
- * @size: size of the array
- * Return: smallest index.
- **/
-int partition(int *array, int first, int last, size_t size)
-{
-	int i, tmp, j, pivot;
-
-/*
-* pivot is the last element of the array and i the smallest index.
-* i start at 0.
-*/
-	pivot = array[last];
-	i = first;
-
-/*
-* transverse the elements of the array, but don't reach the pivot
-*/
-	for (j = first; j <= last - 1; j++)
+	for (j = low; j < high; j++)
 	{
-		/*
-		* Compare each element of the array with the pivot and swap them
-		* at left of the array in case they are smaller (i) than the pivot
-		* do nothing if they are greater.
-		*/
-		if (array[j] <= pivot)
+		if (array[j] < pivot)
 		{
-			tmp = array[j];
-			array[j] = array[i];
-			array[i] = tmp;
-			if (i != j)
-				print_array(array, size);
 			i++;
+
+			if (i != j)
+			{
+			swap(&array[i], &array[j]);
+			print_array(array, size);
+			}
 		}
 	}
-	/*
-	* Take the pivot and place it at the last smallest index (i)
-	* return this smallest index that is the partition point of array.
-	*/
-	tmp = array[j];
-	array[j] = array[i];
-	array[i] = tmp;
-	if (i != j)
-		print_array(array, size);
-	return (i);
+
+	if (i + 1 != high)
+	{
+	swap(&array[i + 1], &array[high]);
+	print_array(array, size);
+	}
+
+	return (i + 1);
+}
+
+/*
+ * recursive_quick_sort - Sorts an array of integers in ascending order
+ * @array: array to be sorted
+ * @low: left most value
+ * @high: right most value
+ * @size: size of the array
+ * Return: void
+*/
+
+void recursive_quick_sort(int *array, int low, int high, int size)
+
+{
+	int pi;
+
+	if (low < high)
+	{
+		pi = partition(array, low, high, size);
+		recursive_quick_sort(array, low, pi - 1, size);
+		recursive_quick_sort(array, pi + 1, high, size);
+	}
+}
+
+/**
+ * quick_sort - Sorts an array of integers in ascending order
+ * @array: The array to be sorted.
+ * @size: The number of elements in the array
+ * Return: Nothing
+ */
+
+void quick_sort(int *array, size_t size)
+{
+	if (array == NULL || size < 2)
+		return;
+
+	recursive_quick_sort(array, 0, size - 1, size);
 }
