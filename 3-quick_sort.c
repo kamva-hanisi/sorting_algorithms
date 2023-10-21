@@ -1,4 +1,4 @@
-#include "sort.h" 
+#include "sort.h"
 /**
  * swap - Swap values of start and next index
  * @a: array to be sorted
@@ -49,7 +49,7 @@ int partition(int *array, int low, int high, int size)
 
 	if (array[i + 1] != array[high])
 	{
-		temp = array[i+ 1];
+		temp = array[i + 1];
 		array[i + 1] = array[high];
 		array[high] = temp;
 		print_array(array, size);
