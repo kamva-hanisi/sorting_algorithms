@@ -1,5 +1,4 @@
-#include "sort.h"
-
+#include "sort.h" 
 /**
  * swap - Swap values of start and next index
  * @a: array to be sorted
@@ -34,25 +33,25 @@ int partition(int *array, int low, int high, int size)
 	{
 		if (array[j] < pivot)
 		{
-			i++;
-			temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
 
-			if (i != j)
+			i++;
+
+			if (array[i] != array[j])
 			{
+				temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
 				print_array(array, size);
 			}
 		}
 
 	}
 
-	temp = array[i + 1];
-	array[i + 1] = array[high];
-	array[high] = temp;
-
-	if (i + 1 != high)
+	if (array[i + 1] != array[high])
 	{
+		temp = array[i+ 1];
+		array[i + 1] = array[high];
+		array[high] = temp;
 		print_array(array, size);
 	}
 
